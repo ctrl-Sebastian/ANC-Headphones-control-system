@@ -1,0 +1,40 @@
+% 1. Define the complex variable 's'
+s = tf('s');
+
+% 2. Define the Plant (Speaker) and Sensor (Microphone)
+Gs = (94250)^2 / (s^2 + 16600*s + (94250)^2); 
+Hm =  1 / ((25000)*s + 1);                 
+
+% 3. Define your Controller WITHOUT K
+Gc_unscaled = (s + 1000) / (s + 8000);
+
+% 4. Create the unscaled Open-Loop Transfer Function
+L_unscaled = Gc_unscaled * Gs * Hm
+
+%figure;
+rlocus(L_unscaled);
+%title('Root Locus for ANC System');
+
+% Draw grid lines for a target damping ratio of 0.707 (typical optimal damping)
+sgrid(0.707, []);
+
+%disp('Click on the root locus branch in the Left-Half Plane, near the sgrid line.');
+%[K, poles] = rlocfind(L_unscaled); 
+%fprintf('The exact gain K at the point you clicked is: %f\n', K);
+
+% 1. Build the final controller with your new K
+K = 152762249.806249;
+Gc_final = K * Gc_unscaled;
+
+% 2. Build the Closed-Loop Transfer Function from Disturbance to Output
+% Formula: Forward Path / (1 + Open Loop)
+% Forward path from D(s) is just Gs(s)
+T_closed_loop = Gs / (1 + Gc_final * Gs * Hm);
+
+% 3. Plot the Step Response
+figure;
+step(T_closed_loop);
+bode(Gs, 'b', T_closed_loop, 'r')
+legend('Uncontrolled Speaker (Noise)', 'ANC System (Reduced Noise)');
+title('Bode Plot: Proof of Low-Frequency Noise Reduction');
+grid on;
