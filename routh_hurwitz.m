@@ -1,7 +1,8 @@
+% Sebastian De Leon
 syms s K
 
 D_s = (s+8000) * (s^2 + 16000*s + (94250)^2) * (s + 1/25000);
-N_s = K * (s+1000) * (94250)^2 * 1/25000;
+N_s = K * (s+1650) * (94250)^2 * 1/25000;
 
 CE = D_s + N_s;
 
@@ -13,8 +14,12 @@ coeffs_s = coeffs(expanded_ce, s, 'All')
 R = sym(zeros(5, 3));
 
 % 3. Populate the first two rows (s^4 and s^3) using the coefficients
-R(1, 1) = coeffs_s(1); R(1, 2) = coeffs_s(3); R(1, 3) = coeffs_s(5);
-R(2, 1) = coeffs_s(2); R(2, 2) = coeffs_s(4); R(2, 3) = 0;
+R(1, 1) = coeffs_s(1); 
+R(1, 2) = coeffs_s(3); 
+R(1, 3) = coeffs_s(5);
+R(2, 1) = coeffs_s(2); 
+R(2, 2) = coeffs_s(4); 
+R(2, 3) = 0;
 
 % 4. Calculate the remaining rows using Routh determinant formulas
 % --- s^2 row ---
