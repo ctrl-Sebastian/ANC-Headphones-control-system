@@ -22,25 +22,25 @@ R(2, 2) = coeffs_s(4);
 R(2, 3) = 0;
 
 % 4. Calculate the remaining rows using Routh determinant formulas
-% --- s^2 row ---
+%  s^2 row 
 R(3, 1) = (R(2,1)*R(1,2) - R(1,1)*R(2,2)) / R(2,1);
 R(3, 2) = (R(2,1)*R(1,3) - R(1,1)*R(2,3)) / R(2,1);
 
-% --- s^1 row ---
+%  s^1 row 
 R(4, 1) = (R(3,1)*R(2,2) - R(2,1)*R(3,2)) / R(3,1);
 
-% --- s^0 row ---
+%  s^0 row 
 R(5, 1) = (R(4,1)*R(3,2) - R(3,1)*R(4,2)) / R(4,1);
 
 % 5. Simplify and extract the first column for stability analysis
 first_col = simplify(R(:, 1));
-disp('--- First Column of the Routh Array ---');
+disp('First Column of the Routh Array');
 disp(first_col);
 
 % 6. Find the critical values of K
 % For stability, EVERY term in the first column must be > 0.
 % We find the boundary limits by setting the equations with K equal to 0.
-disp('--- Critical Boundary Values for K ---');
+disp('Critical Boundary Values for K');
 
 disp('K value where s^2 row = 0:'); 
 K_crit_s2 = double(solve(first_col(3) == 0, K));
