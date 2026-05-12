@@ -26,11 +26,11 @@ Hmic = (1/25000) / (s + 25000);
 
 T_closed = (Gcontroller * Gspeaker) / (1 + Gcontroller * Gspeaker * Hmic);
 
-%damp(T_closed);
+damp(T_closed);
 
-%stepinfo(T_closed);
+stepinfo(T_closed);
 
-%figure;
+figure;
 %step(T_closed);
-%grid on
+grid on
 
